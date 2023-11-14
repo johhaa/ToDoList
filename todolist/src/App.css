@@ -33,8 +33,28 @@ body{
 .tasks{
   
   flex: 1 0 auto;
-  margin-left: 0;
+  
 }
+
+.tasks ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tasks li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px; /* Регулируйте отступ между элементами по вашему усмотрению */
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Распределите элементы на всю ширину li */
+}
+
 
 .buttons{
   margin-top: 20px;
