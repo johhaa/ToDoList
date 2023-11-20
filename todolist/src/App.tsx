@@ -42,6 +42,15 @@ function App() {
     }
   }
 
+  function changeTaskTitle(id: string, newValue: string, Todolistid: string){
+    let tasks = tasksObj[Todolistid]
+    let task = tasks.find(t =>  t.id == id)
+    if(task) {
+      task.title = newValue
+      setTasks({...tasksObj})
+    }
+  }
+
   function changeFilter(value: filterValuesType, todolistID: string){
     let todolist = todolists.find(t => t.id == todolistID)
     if(todolist) {todolist.filter = value}
@@ -64,6 +73,11 @@ function App() {
     setTasks({...tasksObj})
   }
 
+  function changeTodolistTitle(id: string, newTitle: string){
+    let todolist = todolists.find((t) => t.id == id)
+    if(todolist) todolist.title = newTitle
+    setTodolist([...todolists])
+  }
 
   function createTodoList(title: string){
     let newTodolist: TodoListType = {id: v1(), title: title, filter: "all"}
@@ -106,6 +120,8 @@ function App() {
               changeStatus={changeStatus}
               filter = {tl.filter}
               deleteTodoList={deleteTodoList}
+              changeTasklTitle={changeTaskTitle}
+              changeTodolistTitle={changeTodolistTitle}
           />  
           }    
         )}

@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from 'react'
 import { filterValuesType } from '../App'
 import '../App.css'
 import AddItemForm from './AddItemForm'
+import EditableSpan from './EditableSpan'
 
 
 export type TaskType = {
@@ -18,9 +19,11 @@ type PropsType = {
 	filter: filterValuesType
 	deleteTask: (id: string, todolistID: string) => void
 	changeFilter: (value: filterValuesType, todolistID: string) => void
+	changeTasklTitle: (id: string, newValue: string, Todolistid: string) => void
 	addTask: (newTaskTitle: string, todolistID: string) => void
-	changeStatus: (checkboxStatus: boolean, id: string, todolistID: string) => void
+	changeStatus: (checkboxStatus: boolean, id: string, TodolistID: string) => void
 	deleteTodoList: (todolistID: string) => void
+	changeTodolistTitle: (id: string, newTitle: string) => void
 }
 
 export default function TodoList(props: PropsType){
@@ -37,11 +40,13 @@ export default function TodoList(props: PropsType){
 		props.addTask(title, props.id)
 	}
 
+	const changeTodolistTitle = (newTitle: string) => { props.changeTodolistTitle(props.id, newTitle)}
+
 	return(
 		<>
 		<div className="card">
 			<div className='card-header'>
-				<h3 className='card-title'>{props.title} <button onClick={deleteTodolist}>X</button></h3>
+				<h3 className='card-title'> <EditableSpan title = {props.title} onChange={changeTodolistTitle}/> <button onClick={deleteTodolist}>X</button></h3>
 				<AddItemForm addItem={addTask}/>
 			</div>
 			<div className='tasks'>
@@ -50,10 +55,13 @@ export default function TodoList(props: PropsType){
 						props.tasks.map((task) =>{
 							const onDeleteHandler = () => props.deleteTask(task.id, props.id)
 							const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => props.changeStatus(e.currentTarget.checked, task.id, props.id)
+							const onChangeTitleHandler = (newValue: string) => {
+								props.changeTasklTitle(task.id, newValue, props.id)
+							}
 							
 							return <li  key={task.id}>
 								<div className="task-item" >
-									{task.title}
+									<EditableSpan title={task.title} onChange={onChangeTitleHandler} />
 									<input 
 										type="checkbox" 
 										checked ={task.isDone}
@@ -76,5 +84,6 @@ export default function TodoList(props: PropsType){
 		</>
 	)
 }
+
 
 
